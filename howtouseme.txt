@@ -1,1 +1,2 @@
-git 使用手册
+git 使用手册:https://git-scm.com/book/zh/v2
+在现有目录中初始化仓库:git init
