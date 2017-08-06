@@ -1,4 +1,3 @@
 *.tags
 .tags_sorted_by_file
-tmp/
-myprojectV1/tmp/
+
