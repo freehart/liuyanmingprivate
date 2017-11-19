@@ -1,3 +1,3 @@
 # liuyanmingprivate
-free idea
-my study
+## free idea
+## my study
