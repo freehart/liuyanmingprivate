@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style></style><title>gitstudy</title></head><body><article class="markdown-body"><h2 id="git"><a name="user-content-git" href="#git" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git 别名配置</h2>
+<p>git config &ndash;global alias.co checkout<br />
+git config &ndash;global alias.br branch<br />
+git config &ndash;global alias.ci commit<br />
+git config &ndash;global alias.st status<br />
+git config &ndash;global alias.pl  pull &ndash;rebase<br />
+git config &ndash;global alias.lg &ldquo;log &ndash;graph &ndash;pretty=format:&rsquo;%Cred%h%Creset -%C(yellow)%d%Creset %C(bold blue)%s%Creset %Cgreen(%cr) &lt;%an&gt;%Creset&rsquo; &ndash;abbrev-commit &ndash;date=relative&rdquo;</p>
+<h2 id="git-ssh"><a name="user-content-git-ssh" href="#git-ssh" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>git ssh配置</h2>
+<p>在管理Git项目上，很多时候都是直接使用https url克隆到本地，当然也有有些人使用SSH url克隆到本地。</p>
+<p>这两种方式的主要区别在于：使用https url克隆对初学者来说会比较方便，复制https url然后到git Bash里面直接用clone命令克隆到本地就好了，但是每次fetch和push代码都需要输入账号和密码，这也是https方式的麻烦之处。</p>
+<p>而使用SSH url克隆却需要在克隆之前先配置和添加好SSH key，因此，如果你想要使用SSH url克隆的话，你必须是这个项目的拥有者。否则你是无法添加SSH key的，另外ssh默认是每次fetch和push代码都不需要输入账号和密码，如果你想要每次都输入账号密码才能进行fetch和push也可以另外进行设置。前面的几篇介绍Git的博客里面采用的都是https的方式作为案例，</p>
+<p>今天主要是讲述如何配置使用ssh方式来提交和克隆代码。</p>
+<p>大概可以分为一下几个步骤</p>
+<pre><code>设置Git的user name和email：(如果是第一次的话)
+检查是否已经有SSH Key。
+生成密钥
+添加密钥到ssh-agent
+登陆Github, 添加 ssh
+测试：
+</code></pre>
+<p>1、设置Git的user name和email：(如果是第一次的话)</p>
+<h1 id="xujun"><a name="user-content-xujun" href="#xujun" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>这里的“xujun&rdquo; 可以替换成自己的用户名</h1>
+<p>git config &ndash;global user.name &ldquo;xujun&rdquo;</p>
+<h1 id="gdutxiaoxu163com"><a name="user-content-gdutxiaoxu163com" href="#gdutxiaoxu163com" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>这里的邮箱 <a href="mailto:gdutxiaoxu@163.com">gdutxiaoxu@163.com</a>  替换成自己的邮箱</h1>
+<p>git config &ndash;global user.email  &ldquo;<a href="mailto:gdutxiaoxu@163.com">gdutxiaoxu@163.com</a>&ldquo;</p>
+<p>检查是否已经有SSH Key。</p>
+<p>cd ~/.ssh    </p>
+<p>接着输入ls，</p>
+<p>ls</p>
+<p>列出该文件下的文件，看是否存在 id_isa 和 id_isa.pub 文件（也可以是别的文件名，只要 yourName 和 yourName.pub 承兑存在），如果存在的话，证明已经存在 ssh key了，可以直接跳过 生成密钥 这一步骤，</p>
+<p>下图是存在的情况下</p>
+<p>3、生成密钥</p>
+<h1 id="gdutxiaoxu163com_1"><a name="user-content-gdutxiaoxu163com_1" href="#gdutxiaoxu163com_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>这里的邮箱 <a href="mailto:gdutxiaoxu@163.com">gdutxiaoxu@163.com</a>  替换成自己的邮箱</h1>
+<p>ssh-keygen -t rsa -C &ldquo;<a href="mailto:gdutxiaoxu@163.com">gdutxiaoxu@163.com</a>&ldquo;</p>
+<p>连续3个回车。如果不需要密码的话。<br />
+最后得到了两个文件：id_rsa和id_rsa.pub。</p>
+<p>默认的存储路径是：</p>
+<p>C:\Users\Administrator.ssh</p>
+<p>4、添加密钥到ssh-agent</p>
+<p>确保 ssh-agent 是可用的。ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，其实ssh-agent就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
+<h1 id="start-the-ssh-agent-in-the-background"><a name="user-content-start-the-ssh-agent-in-the-background" href="#start-the-ssh-agent-in-the-background" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>start the ssh-agent in the background</h1>
+<p>eval &ldquo;$(ssh-agent -s)&rdquo;</p>
+<p>添加生成的 SSH key 到 ssh-agent。</p>
+<p>ssh-add ~/.ssh/id_rsa</p>
+<p>5、登陆Github, 添加 ssh 。</p>
+<p>把id_rsa.pub文件里的内容复制到这里</p>
+<p>6、测试：</p>
+<p>ssh -T <a href="mailto:git@github.com">git@github.com</a></p>
+<p>你将会看到：</p>
+<pre><code>Hi humingx! You’ve successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+<p>如果看到Hi后面是你的用户名，就说明成功了。</p>
+<p>扩展</p>
+<p>如果我之前的仓库是用https提交的，那么我现在想用ssh 的方式提交，怎么办呢 ，别急，下面就来教你怎样操作了。</p>
+<p>这里同样以我本机目录下的G://test 仓库为例子，</p>
+<p>找到仓库下 .git 文件夹下的config文件，打开，可以看到以下内容</p>
+<p>[core]<br />
+    repositoryformatversion = 0<br />
+    filemode = false<br />
+    bare = false<br />
+    logallrefupdates = true<br />
+    symlinks = false<br />
+    ignorecase = true<br />
+[remote &ldquo;origin&rdquo;]<br />
+    url = <a href="https://github.com/gdutxiaoxu/test.git">https://github.com/gdutxiaoxu/test.git</a><br />
+    fetch = +refs/heads/<em>:refs/remotes/origin/</em><br />
+[branch &ldquo;master&rdquo;]<br />
+    remote = origin<br />
+    merge = refs/heads/master</p>
+<p>将文件中的 url = <a href="https://github.com/gdutxiaoxu/test.git">https://github.com/gdutxiaoxu/test.git</a> 更改为 url = <a href="mailto:git@github.com">git@github.com</a>:gdutxiaoxu/test.git 即可。</p>
+<p>修改后的文件如下</p>
+<p>[core]<br />
+    repositoryformatversion = 0<br />
+    filemode = false<br />
+    bare = false<br />
+    logallrefupdates = true<br />
+    symlinks = false<br />
+    ignorecase = true<br />
+[remote &ldquo;origin&rdquo;]<br />
+    url = <a href="mailto:git@github.com">git@github.com</a>:gdutxiaoxu/test.git<br />
+    fetch = +refs/heads/<em>:refs/remotes/origin/</em><br />
+[branch &ldquo;master&rdquo;]<br />
+    remote = origin<br />
+    merge = refs/heads/master</p>
+<p>进入本地仓库 ，增加 xujun.txt 文件，提交，你会看到不需要再提交密码了</p></article></body></html>
