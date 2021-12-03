@@ -26,9 +26,9 @@ git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(ye
 1、设置Git的user name和email：(如果是第一次的话)
 
 # 这里的“xujun" 可以替换成自己的用户名
-git config --global user.name "xujun"
+git config --global user.name "LiuYanming"
 # 这里的邮箱 gdutxiaoxu@163.com  替换成自己的邮箱
-git config --global user.email  "gdutxiaoxu@163.com"
+git config --global user.email  "lymvsmm@163.com"
 
 检查是否已经有SSH Key。
 
